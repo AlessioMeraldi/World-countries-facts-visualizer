@@ -1,14 +1,12 @@
 import React from "react";
 import './App.css';
-import CountryInformation from "./components/views/CountryInformation.jsx";
-import WorldMap from "./components/views/WorldMap.jsx";
+import WorldExplorer from '/src/components/views/compoundViews/WorldExplorer';
 
 function App() {
 
   return (
     <React.Fragment>
-        <CountryInformation/>
-        <WorldMap/>
+        <WorldExplorer/>
     </React.Fragment>
   )
 }

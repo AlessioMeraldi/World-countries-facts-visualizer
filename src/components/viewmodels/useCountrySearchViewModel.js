@@ -8,12 +8,12 @@ function useCountrySearchViewModel() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
-    async function searchCountry() {
+    async function performSearch(nameToSearch) {
 
         setError("");
         setCountryData(null);
 
-        if (!countryName.trim()) {
+        if (!nameToSearch.trim()) {
             setError("Please enter a valid country name.");
             return;
         }
@@ -21,11 +21,11 @@ function useCountrySearchViewModel() {
         setLoading(true);
 
         try {
-            const data = await fetchCountryByName(countryName);
+            const data = await fetchCountryByName(nameToSearch);
             const country = data[0];
 
             const normalized = {
-                name: country.name?.common,  // always show English name
+                name: country.name?.common,
                 capital: country.capital?.[0],
                 region: country.region,
                 population: country.population,
@@ -41,6 +41,14 @@ function useCountrySearchViewModel() {
         }
     }
 
+    async function searchCountry() {
+        await performSearch(countryName);
+    }
+
+    async function loadCountry(name) {
+        await performSearch(name);
+    }
+
     return {
         countryName,
         countryData,
@@ -48,6 +56,7 @@ function useCountrySearchViewModel() {
         loading,
         setCountryName,
         searchCountry,
+        loadCountry
     };
 }
 

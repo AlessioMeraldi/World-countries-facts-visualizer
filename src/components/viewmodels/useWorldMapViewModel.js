@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import * as d3 from "d3";
 import { fetchWorldMap } from "../models/mapModel";
 
-export function useWorldMapViewModel(width = 960, height = 500) {
+function useWorldMapViewModel(width, height, onCountryClick) {
+    /* toDo: segnarsi che come esempio aveva fatto l'errore sia di passare width / height da WorldMap.jsx che qui gli aveva fissati  valori width=960 e height=500 */
 
     // state
     const [countries, setCountries] = useState([]);
@@ -58,6 +59,15 @@ export function useWorldMapViewModel(width = 960, height = 500) {
         setTooltipContent("");
     };
 
+    const handleCountryClick = (country) => {
+        const name = country.properties.name;
+        console.log("Clicked country:", name);
+
+        if (onCountryClick) {
+            onCountryClick(name);  // 🔥 passa il nome al ViewModel dei paesi
+        }
+    };
+
     return {
         svgRef,
         countries,
@@ -67,7 +77,10 @@ export function useWorldMapViewModel(width = 960, height = 500) {
         pathGenerator,
         handleMouseEnter,
         handleMouseLeave,
+        handleCountryClick,
         width,
         height,
     };
 }
+
+export default useWorldMapViewModel;

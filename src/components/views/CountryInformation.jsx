@@ -1,7 +1,6 @@
 import React from "react";
-import useCountrySearchViewModel from "../viewmodels/useCountrySearchViewModel.js";
 
-function CountryInformation() {
+function CountryInformation( {viewModel}) {
 
     const {
         countryName,
@@ -10,7 +9,7 @@ function CountryInformation() {
         loading,
         setCountryName,
         searchCountry,
-    } = useCountrySearchViewModel();
+    } = viewModel; // 👍 USA IL VM PASSATO DALL'ESTERNO
 
     return (
         <div>

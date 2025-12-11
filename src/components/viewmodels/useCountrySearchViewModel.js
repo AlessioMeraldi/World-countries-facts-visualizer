@@ -8,6 +8,7 @@ function useCountrySearchViewModel() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
+    /* fetch the data given a country name */
     async function performSearch(nameToSearch) {
 
         setError("");
@@ -21,9 +22,10 @@ function useCountrySearchViewModel() {
         setLoading(true);
 
         try {
-            const data = await fetchCountryByName(nameToSearch);
-            const country = data[0];
+            const data = await fetchCountryByName(nameToSearch); /* request data of (nameToSearch) from API through countryModel.js */
+            const country = data[0]; /* reminder: data is returned in an array for each matching country (ex: British Indian Territory and India are both returned from searching "India") */
 
+            /* Terrible syntax to extract data from the REST Country API response, but this is the syntax it has */
             const normalized = {
                 name: country.name?.common,
                 capital: country.capital?.[0],
@@ -32,22 +34,31 @@ function useCountrySearchViewModel() {
                 flag: country.flags?.png
             };
 
+            // set State for countryData with processed information
             setCountryData(normalized);
 
         } catch (err) {
+
+            // countryModel.js already handles failed requests - this is another check in case something went wrong afterwards
             setError(err.message || "Unknown error.");
-        } finally {
+
+        } finally { // regardless of success or failure ...
+
+            // end "loading" state
             setLoading(false);
         }
     }
 
+    /* invoked by searching for a country IN THE SEARCHBAR */
     async function searchCountry() {
         await performSearch(countryName);
     }
 
+    /* invoked by searching for a country ON THE MAP (by clicking) */
     async function loadCountry(name) {
         await performSearch(name);
     }
+    // same functionality at the end of the day, but keeps logic useCountrySearchViewModel and useWorldMapViewModel separated
 
     return {
         countryName,

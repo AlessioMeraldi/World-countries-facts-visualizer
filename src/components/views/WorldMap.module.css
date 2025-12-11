@@ -1,0 +1,46 @@
+
+/* color palette definition */
+:root {
+
+    /* Backgrounds */
+    --sea-color: #EBF5FB; /* pale blue for sea color */
+
+    /* Countries (Land mass levels) */
+    --country-fill-mid:    #6BAED6;  /* Sky blue: standard value */
+
+    /* Interactions */
+    --country-highlight:   #08519C;  /* Deep blue: Fill for hovered country */
+    --country-stroke:      #F0F8FF;  /* AliceBlue: Border for hovered country */
+}
+
+/* make the SVG fill the panel */
+.worldMapSvg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Map's container */
+.mapContainer {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background: radial-gradient(circle at 50% 50%, var(--sea-color) 0%, var(--sea-color) 100%);
+    overflow: hidden;
+}
+
+/* Class for all Countries */
+.country {
+    fill: var(--country-fill-mid);   /* Colore unico per tutti */
+    stroke: var(--country-stroke);    /* Colore bordi */
+    stroke-width: 0.5px;
+    transition: fill 0.3s ease;    /* Transizione morbida del colore */
+    cursor: pointer;
+}
+
+/* Hover for all Countries */
+.country:hover {
+    fill: var(--country-highlight);   /* Colore scuro al passaggio mouse */
+    stroke: #ffffff;                  /* Bordo bianco per risaltare */
+    stroke-width: 1px;                /* Bordo leggermente più spesso */
+}
+

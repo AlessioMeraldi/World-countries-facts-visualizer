@@ -1,0 +1,23 @@
+
+/* Full-page container: vertical layout */
+.worldExplorer {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;       /* full screen height */
+    width: 100vw;        /* full screen width */
+}
+
+/* left panel: CountryInformation */
+.informationPanel {
+    width: 300px;        /* o la misura che vuoi */
+    background: #f5f5f5;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* right panel: map container, takes all remaining space */
+.mapPanel {
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+}

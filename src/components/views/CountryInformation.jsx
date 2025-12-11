@@ -1,4 +1,5 @@
 import React from "react";
+import CountryInformationStyle from "./CountryInformation.module.css";
 
 function CountryInformation( {viewModel}) {
 
@@ -19,16 +20,17 @@ function CountryInformation( {viewModel}) {
                 value={countryName}
                 onChange={(e) => setCountryName(e.target.value)}
                 placeholder="Enter country name"
+                className={CountryInformationStyle.input}
             />
 
             <button onClick={searchCountry} disabled={loading}>
                 {loading ? "Searching..." : "Search"}
             </button>
 
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && <p className={CountryInformationStyle.error}>{error}</p>}
 
             {countryData && (
-                <div>
+                <div className={CountryInformationStyle.container}>
                     <h3>{countryData.name}</h3>
                     <p>Capital: {countryData.capital}</p>
                     <p>Region: {countryData.region}</p>

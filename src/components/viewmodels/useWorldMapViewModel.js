@@ -59,12 +59,15 @@ function useWorldMapViewModel(width, height, onCountryClick) {
         setTooltipContent("");
     };
 
+    // event for mouse-click on the map (country is received from WordMap.jsx by clicking, WorldMaps.jsx actually uses the item's key as an ID)
     const handleCountryClick = (country) => {
+
         const name = country.properties.name;
         console.log("Clicked country:", name);
 
+        /* only if onCountryClick function is defined (it could be undefined if the map is used for multiple purposes, not the case here) */
         if (onCountryClick) {
-            onCountryClick(name);  // 🔥 passa il nome al ViewModel dei paesi
+            onCountryClick(name);  // then execute onCountryClick() function with the parameter 'name' (= the name of the clicked country)
         }
     };
 

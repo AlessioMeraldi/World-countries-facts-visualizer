@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { fetchCountryByName } from "../models/countryModel";
 
-function useCountrySearchViewModel() {
+function useCountrySearchViewModel(onCountryFound) {
 
     const [countryName, setCountryName] = useState("");
     const [countryData, setCountryData] = useState(null);
@@ -9,7 +9,7 @@ function useCountrySearchViewModel() {
     const [loading, setLoading] = useState(false);
 
     /* fetch the data given a country name */
-    async function performSearch(nameToSearch) {
+    async function performSearch(nameToSearch, shouldUpdateMap) {
 
         setError("");
         setCountryData(null);
@@ -36,6 +36,15 @@ function useCountrySearchViewModel() {
 
             // set State for countryData with processed information
             setCountryData(normalized);
+            // if a country was found, use the callback "onCountrFound" to pass its name to the map's viewModel so it may know that it has been "selected" (through a search) toDo: update comment
+            if (onCountryFound && shouldUpdateMap) {
+                onCountryFound(normalized.name);
+            }
+
+            // if a country was found, use the callback "onCountrFound" to pass its name to the map's viewModel so it may know that it has been "selected" (through a search)
+            //if (onCountryFound) {
+            //    onCountryFound(normalized.name); /* sends data to useWorldMapViewModel */
+            //}
 
         } catch (err) {
 
@@ -51,12 +60,12 @@ function useCountrySearchViewModel() {
 
     /* invoked by searching for a country IN THE SEARCHBAR */
     async function searchCountry() {
-        await performSearch(countryName);
+        await performSearch(countryName, true); /* toDo: update comments */
     }
 
     /* invoked by searching for a country ON THE MAP (by clicking) */
     async function loadCountry(name) {
-        await performSearch(name);
+        await performSearch(name, false); /* toDo: update comments */
     }
     // same functionality at the end of the day, but keeps logic useCountrySearchViewModel and useWorldMapViewModel separated
 

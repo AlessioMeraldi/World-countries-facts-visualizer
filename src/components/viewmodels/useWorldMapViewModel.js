@@ -10,6 +10,8 @@ function useWorldMapViewModel(width, height, onCountryClick) {
     const [tooltipContent, setTooltipContent] = useState("");
     const [zoomTransform, setZoomTransform] = useState(d3.zoomIdentity);
 
+    const [selectedCountryName, setSelectedCountryName] = useState(null); /* state for last clicked country */
+
     // local variables
     const svgRef = useRef(null);
 
@@ -39,13 +41,14 @@ function useWorldMapViewModel(width, height, onCountryClick) {
     // it's called only when [countries] changes because it isn't supposed to be called whenever there's a zoom-in or zoom-out, it just adds ONCE the zoom/unzoom function
     // it's added when [countries] changes because it will change when setCountries is called in the initial setup
 
-    // Projection & path generator
+    // Projection (toDo: put description)
     const projection = d3
         .geoNaturalEarth1()
         .scale(160)
         .translate([width / 2, height / 2])
     ;
 
+    // Path-Generator (toDo: put description)
     const pathGenerator = d3.geoPath().projection(projection);
 
     // event for mouse-enter in a country (add the tooltip)
@@ -65,11 +68,21 @@ function useWorldMapViewModel(width, height, onCountryClick) {
         const name = country.properties.name;
         console.log("Clicked country:", name);
 
+        console.log(countries);
+
+        /* assign to 'selectedCountryName' the name of the last selected country */
+        setSelectedCountryName(name);
+
         /* only if onCountryClick function is defined (it could be undefined if the map is used for multiple purposes, not the case here) */
         if (onCountryClick) {
             onCountryClick(name);  // then execute onCountryClick() function with the parameter 'name' (= the name of the clicked country)
         }
     };
+
+    // function to set the selected country in a different way from clicking the map (using the serachbar, in our case)
+    const selectCountryFromOutside = (name) => {
+        setSelectedCountryName(name);
+    }
 
     return {
         svgRef,
@@ -81,6 +94,8 @@ function useWorldMapViewModel(width, height, onCountryClick) {
         handleMouseEnter,
         handleMouseLeave,
         handleCountryClick,
+        selectCountryFromOutside,
+        selectedCountryName,
         width,
         height,
     };

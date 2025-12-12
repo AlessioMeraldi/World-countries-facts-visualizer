@@ -23,5 +23,15 @@ export async function fetchCountryByName(name) {
         const text = await res.text().catch(() => "");
         throw new Error(res.statusText || text || "Country not found.");
     }
+
+    // Attempt 3: special cases
+    if (name==="England"){
+        const res = await fetch(`United Kingdom`);
+        if (!res.ok) {
+            const text = await res.text().catch(() => "");
+            throw new Error(res.statusText || text || "Country not found.");
+        }
+    }
+
     return res.json();
 }

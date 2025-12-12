@@ -8,9 +8,14 @@
     /* Countries (Land mass levels) */
     --country-fill-mid:    #6BAED6;  /* Sky blue: standard value */
 
-    /* Interactions */
-    --country-highlight:   #08519C;  /* Deep blue: Fill for hovered country */
+    /* Interactions (hover) */
+    --country-highlight:   #4A88D2;  /* Deep blue: Fill for hovered country */
     --country-stroke:      #F0F8FF;  /* AliceBlue: Border for hovered country */
+
+    /* interactions (clicked) */
+    --country-clicked-fill: #08519C;
+    --country-clicked-stroke: #F0F8FF;
+
 }
 
 /* make the SVG fill the panel */
@@ -44,3 +49,8 @@
     stroke-width: 1px;                /* Bordo leggermente più spesso */
 }
 
+.countryClicked {
+    fill: var(--country-clicked-fill);
+    stroke: var(--country-clicked-stroke);
+    /* countryClicked does not substitute country, but only overrides its color upon being assigned */
+}

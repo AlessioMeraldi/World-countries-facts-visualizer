@@ -61,11 +61,13 @@ function useCountrySearchViewModel(onCountryFound) {
     /* invoked by searching for a country IN THE SEARCHBAR */
     async function searchCountry() {
         await performSearch(countryName, true); /* toDo: update comments */
+        setCountryName(""); /* clears input field after having fetched the country */
     }
 
     /* invoked by searching for a country ON THE MAP (by clicking) */
     async function loadCountry(name) {
         await performSearch(name, false); /* toDo: update comments */
+        setCountryName(""); /* clears input field after having fetched the country */
     }
     // same functionality at the end of the day, but keeps logic useCountrySearchViewModel and useWorldMapViewModel separated
 

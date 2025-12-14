@@ -68,8 +68,6 @@ function useWorldMapViewModel(width, height, onCountryClick) {
         const name = country.properties.name;
         console.log("Clicked country:", name);
 
-        console.log(countries);
-
         /* assign to 'selectedCountryName' the name of the last selected country */
         setSelectedCountryName(name);
 

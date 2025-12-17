@@ -5,8 +5,10 @@
 2) Ricercando nella barra, il paese deve comparire con questo stile "rimane cliccato" (FATTO)
 2.5) Assicurarsi che tutti i paesi funzionino sia cliccando che cercando nella searchbar (FATTO - RICONTROLLARE)
 3) Pulire la barra di ricerca quando si cerca un altro paese o si clicca (FATTO)
+4) Commentare WorldExplorer.jsx (FATTO)
+5) Commentare useWorldMapViewModel.js (FATTO)
 
-4) Tirare fuori più dati dalla API, il JSON torna molta roba, e metterli nella barra di sinistra:
+6) Tirare fuori più dati dalla API, il JSON torna molta roba, e metterli nella barra di sinistra:
 
 [
   {
@@ -23,12 +25,12 @@
     "tld": [".it"],
     "cca2": "IT",
     "ccn3": "380",
-    "cca3": "ITA",
+    "cca3": "ITA", // toDo: estrarre anche sigla CCA3
     "cioc": "ITA",
     "independent": true,
     "status": "officially-assigned",
     "unMember": true,
-    "currencies": {
+    "currencies": { // toDo: estrarre anche la valuta
       "EUR": {
         "name": "Euro",
         "symbol": "€"
@@ -40,7 +42,7 @@
     },
     "capital": ["Rome"],
     "altSpellings": ["IT", "Italia", "Italian Republic", "Repubblica italiana"],
-    "region": "Europe",
+    "region": "Europe", // toDo: estrarre la regione
     "subregion": "Southern Europe",
     "languages": {
       "ita": "Italian"
@@ -81,11 +83,11 @@
     },
     "population": 59554023,
     "fifa": "ITA",
-    "car": {
+    "car": { // toDo: extract car's license plate format
       "signs": ["I"],
       "side": "right"
     },
-    "timezones": ["UTC+01:00"],
+    "timezones": ["UTC+01:00"], // toDo: extract timeZone
     "continents": ["Europe"],
     "flags": {
       "svg": "https://flagcdn.com/it.svg",
@@ -106,6 +108,6 @@
   }
 ]
 
-5) Rivedere lo stile della barra di sinistra
+8) Rivedere lo stile della barra di sinistra
 
  */

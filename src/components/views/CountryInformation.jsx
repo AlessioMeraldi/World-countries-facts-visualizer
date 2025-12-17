@@ -10,7 +10,7 @@ function CountryInformation( {viewModel}) {
         loading,
         setCountryName,
         searchCountry,
-    } = viewModel; // 👍 USA IL VM PASSATO DALL'ESTERNO
+    } = viewModel;
 
     return (
         <div>
@@ -31,11 +31,19 @@ function CountryInformation( {viewModel}) {
 
             {countryData && (
                 <div className={CountryInformationStyle.container}>
-                    <h3>{countryData.name}</h3>
-                    <p>Capital: {countryData.capital}</p>
-                    <p>Region: {countryData.region}</p>
-                    <p>Population: {countryData.population}</p>
-                    <img src={countryData.flag} alt="flag" width="120" />
+
+                    <img src={countryData.flag} alt="flag" width="120" style={{border: "1px solid #ccc", marginBottom: "1rem"}}/>
+
+                    <h3>{countryData.name} <small>({countryData.code})</small></h3>
+
+                    <p><strong>Capital:</strong> {countryData.capital}</p>
+                    <p><strong>Region:</strong> {countryData.region}</p>
+                    <p><strong>Population:</strong> {countryData.population.toLocaleString()}</p>
+                    <p><strong>Timezone:</strong> {countryData.timezone}</p>
+                    <hr />
+                    <p><strong>Currency:</strong> {countryData.currencies}</p>
+                    <p><strong>Car Sign:</strong> {countryData.carSign}</p>
+
                 </div>
             )}
         </div>

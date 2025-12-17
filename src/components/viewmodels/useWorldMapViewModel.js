@@ -9,11 +9,13 @@ function useWorldMapViewModel(width, height, onCountryClick) {
     const [countries, setCountries] = useState([]);
     const [tooltipContent, setTooltipContent] = useState("");
     const [zoomTransform, setZoomTransform] = useState(d3.zoomIdentity);
-
     const [selectedCountryName, setSelectedCountryName] = useState(null); /* state for last clicked country */
 
     // local variables
     const svgRef = useRef(null);
+
+
+    /* === INITIAL MAP SETUP === */
 
     // Load geo data (using an effect)
     useEffect(() => {
@@ -21,40 +23,46 @@ function useWorldMapViewModel(width, height, onCountryClick) {
     }, []); // [] = execute this only the first time, upon creation
 
     // Setup zoom/pan
-    useEffect(() => {
+    useEffect(() => { // initialize (once, at start of the program) the handling of the zoom
 
-        // if not zooming the map - return
-        if (!svgRef.current) return;
+        if (!svgRef.current) return; // if zoom object doesn't exist in the DOM, return
 
-        const svg = d3.select(svgRef.current);
-        const g = svg.select("g");
+        const svg = d3.select(svgRef.current); // get reference to the map's SVG (with svgRef.current), d3 syntax requires us to use d3.select(x)
+        const g = svg.select("g"); // get the reference to the 'g' element of the SVG (the 'g' element is used to put other stuff in it, in case of this d3 map it contains the actual countries with their borders)
+
         if (!g.empty()) {
-            const zoom = d3
-                .zoom()
-                .scaleExtent([1, 8])
-                .on("zoom", (event) => setZoomTransform(event.transform))
+            const zoom = d3.zoom() // create an instance of "d3.zoom()", which implements the zoom behavior ...
+                .scaleExtent([1, 8]) // set that the zoom scale goes from 1 to 8 ...
+                .on("zoom", (event) => setZoomTransform(event.transform)) // and, add an eventListener for the event "zoom" that executes the function that handles the zoom
             ;
 
+            // APPLY the zoom behavior to the SVG.
+            // This attaches internal event listeners (wheel, mousedown, etc.) to the svg element.
             svg.call(zoom);
         }
+
     }, [countries]);
     // it's called only when [countries] changes because it isn't supposed to be called whenever there's a zoom-in or zoom-out, it just adds ONCE the zoom/unzoom function
     // it's added when [countries] changes because it will change when setCountries is called in the initial setup
 
-    // Projection (toDo: put description)
-    const projection = d3
-        .geoNaturalEarth1()
-        .scale(160)
-        .translate([width / 2, height / 2])
+    // Define the map projection (converts 3D Globe coordinates to 2D Planar pixels)
+    const projection = d3.geoNaturalEarth1()
+        .scale(160) // sets the base scale (zoom level) of the map
+        .translate([width / 2, height / 2]) // centers the map in the middle of the SVG canvas [middle = (width/2, height/2)]
     ;
 
-    // Path-Generator (toDo: put description)
-    const pathGenerator = d3.geoPath().projection(projection);
+    // Create a new geographic path generator (this tells the generator: "use these math rules to calculate pixel positions")
+    const pathGenerator = d3.geoPath()
+        .projection(projection) // bind the projection we defined earlier to this generator
+    ;
+
+
+    /* === WORLD-MAP USAGE LOGIC === */
 
     // event for mouse-enter in a country (add the tooltip)
     const handleMouseEnter = (country) => {
         setTooltipContent(country.properties.name);
-        // modify to contain data from REST Countries API (it's getting passed from countryMode.js, useCountrySearchViewModel.js and CountrInformation,jsx
+        // modify to contain data from REST Countries API (it's getting passed from countryMode.js, useCountrySearchViewModel.js and CountrInformation,jsx)
     };
 
     // event for mouse-exit from a country (remove the tooltip)

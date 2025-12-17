@@ -9,7 +9,7 @@ function WorldMap({viewModel}) {
 
             <div className={WorldMapStyle.mapContainer}>
 
-                <svg ref={viewModel.svgRef}
+                <svg ref={viewModel.svgRef} /* set this svg as the referenced object by 'svgRef' inside the (useWorldMap) viewModel [used to sense zoom / pan changes] */
                      viewBox={`
                         0
                         0 

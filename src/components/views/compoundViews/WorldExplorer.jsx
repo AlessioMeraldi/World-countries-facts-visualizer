@@ -1,5 +1,7 @@
 import React from "react";
-import WorldMapStyle from "./WorldExplorer.module.css";
+import WorldExplorerStyle from "./WorldExplorer.module.css";
+
+/* import API-name to MAP-name conversion utility function */
 import { getMapNameFromAPIName, getAPINameFromMapName } from "/src/utilities/countryMapping.js";
 
 /* import ViewModels */
@@ -10,6 +12,7 @@ import useWorldMapViewModel from "/src/components/viewmodels/useWorldMapViewMode
 import WorldMap from "/src/components/views/WorldMap";
 import CountryInformation from "/src/components/views/CountryInformation";
 
+
 /* Begin logic */
 function WorldExplorer() {
 
@@ -17,87 +20,54 @@ function WorldExplorer() {
     const mapVM = useWorldMapViewModel(960, 500);
     const countryVM = useCountrySearchViewModel();
 
-    /* both viewModels use a function / method from one another, so we can only link them afterwards by using an effect (otherwise, one casts an error 'undefined') */
+    /* both viewModels use a function / method from one another, so we can only link them afterward by using an effect (otherwise, one casts an error 'undefined') */
 
     /* useEffect on mapVM: to make a map click fetch a Country: */
-    //React.useEffect(() => {
-
-       // if (mapVM.selectedCountryName) {
-        //    const normalizedMapName = normalizeCountryName(mapVM.selectedCountryName);
-         //   const normalizedAPIName = normalizeCountryName(countryVM.countryData?.name);
-
-           // if (normalizedAPIName !== normalizedMapName) {
-          //      countryVM.loadCountry(mapVM.selectedCountryName);
-          //  }
-      //  }
-    //}, [mapVM.selectedCountryName]);
-
-    /* useEffect on countryVM: to make the searching of a country (through the searchbar) select the country on the map aswell */
-  //  React.useEffect(() => {
-        // Se abbiamo trovato dati di un paese...
-   //     if (countryVM.countryData?.name) {
-            // ...e se la mappa non lo ha già selezionato
-    //        if (mapVM.selectedCountryName !== countryVM.countryData.name) {
-         //       mapVM.selectCountryFromOutside(countryVM.countryData.name);
-       //     }
-    //    }
-  //  }, [countryVM.countryData]);
-
-    /* EFFETTO 1: Click Mappa -> Carica Dati (AGGIORNATO) */
     React.useEffect(() => {
-        if (mapVM.selectedCountryName) {
 
-            // 1. Il nome grezzo dalla mappa (es. "England" o "USA")
-            const rawMapName = mapVM.selectedCountryName;
+        if (mapVM.selectedCountryName) { // if state 'selectedCountryName' in the map ViewModel is truthy (here, intended as 'not null')
 
-            // 2. TRADUZIONE: "England" -> "United Kingdom" (o "USA" -> "United States")
-            // Questo è il nome che useremo per interrogare l'API
-            const nameToFetch = getAPINameFromMapName(rawMapName);
+            const rawMapName = mapVM.selectedCountryName; // get the country name from the map's ViewModel (= the name the map gives to the country)
+            const nameToFetch = getAPINameFromMapName(rawMapName); // convert the name from the map's ViewModel to the name used in the REST Countries API (note: countryMapping.js will return the same name if it's the same)
 
-            // 3. Controllo anti-loop:
-            // Confrontiamo il nome che vogliamo cercare con il nome che l'API ha già in pancia.
-            // Nota: countryVM.countryData.name è solitamente il nome "Common" dell'API (es. "United Kingdom")
-            if (countryVM.countryData?.name !== nameToFetch) {
+            // anti-loop check
+            if (countryVM.countryData?.name !== nameToFetch) { // if (previous countryData?.name's value (obtained from the REST Countries API) is different from the nameTheFetch
+                // then fetch the name
                 console.log(`Map Clicked '${rawMapName}'. Fetching API for '${nameToFetch}'`);
                 countryVM.loadCountry(nameToFetch);
             }
+            // Note: if this wasn't checked then the updating of the map would cause the interrogation from the API, which would cause the updating of the map, which would cause the interrogation of the API (generating an infinite loop)
         }
+
+        /* toDo: segnarsi come esempio che qui sotto si sta facendo una cosa sporca che romperebbe le regole di React */
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mapVM.selectedCountryName]);
 
-    /* EFFETTO 2: Dati API -> Colora Mappa (INVARIATO, ma ora gestisce UK -> England) */
+    /* useEffect on countryVM: to make the searching of a country (through the searchbar) select the country on the map as well */
     React.useEffect(() => {
+
         if (countryVM.countryData?.name) {
 
-            const apiName = countryVM.countryData.name; // Es: "United Kingdom"
+            const apiName = countryVM.countryData.name; // get the country's name from the REST Country's API's <interrogator viewmodel> (aka, the name it has in the REST Country's API)
+            const nameTargetForMap = getMapNameFromAPIName(apiName); // convert the name from the REST API's ViewModel to the name used on the MAP (note: countryMapping.js will return the same name if it's the same)
 
-            // TRADUZIONE: "United Kingdom" -> "England" (perché la mappa ha quel poligono)
-            const nameTargetForMap = getMapNameFromAPIName(apiName);
-
+            // anti-loop check
             if (mapVM.selectedCountryName !== nameTargetForMap) {
-                mapVM.selectCountryFromOutside(nameTargetForMap);
+                mapVM.selectCountryFromOutside(nameTargetForMap); // highlight corresponding country on the map (when search is started from searchbar)
             }
         }
+
+        /* toDo: segnarsi come esempio che qui sotto si sta facendo una cosa sporca che romperebbe le regole di React */
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [countryVM.countryData]);
 
-    // viewModel to get worldMapView related methods (data taken from mapMode.js)
-    //const mapVM = useWorldMapViewModel(
-    //    960, // map size parameter (width)
-    //    500, // map size parameter (height)
-    //    countryVM.loadCountry  // map-click → fetch country
-    //);
-
-    // viewModel to get Country-Data related methods (data taken from countryModel.js)
-    // const countryVM = useCountrySearchViewModel(
-    //    (name) => mapVM.selectCountryFromOutside(name) /* the 'useCountrySearchViwModel' must use the selectCountryFromOutside method of the useWorldMapViewModel to communicate that a country has been "clicked" when in reality it has been searched through the searchbar */
-    // );
-
     return (
-        <div className={WorldMapStyle.worldExplorer}>
-            <div className={WorldMapStyle.informationPanel}>
+        <div className={WorldExplorerStyle.worldExplorer}>
+            <div className={WorldExplorerStyle.informationPanel}>
                 <CountryInformation viewModel={countryVM} />
             </div>
 
-            <div className={WorldMapStyle.mapPanel}>
+            <div className={WorldExplorerStyle.mapPanel}>
                 <WorldMap viewModel={mapVM} />
             </div>
         </div>

@@ -27,11 +27,24 @@ function useCountrySearchViewModel(onCountryFound) {
 
             /* Terrible syntax to extract data from the REST Country API response, but this is the syntax it has */
             const normalized = {
+
                 name: country.name?.common,
                 capital: country.capital?.[0],
                 region: country.region,
                 population: country.population,
-                flag: country.flags?.png
+                flag: country.flags?.png,
+
+                code: country.cca3, // cca3 code (ita, fra, spa, ...)
+
+                currencies: country.currencies // currencies (given that the key is dynamic (ex: "EUR") - we use Object.values
+                    ? Object.values(country.currencies)
+                        .map(c => `${c.name} (${c.symbol})`)
+                        .join(", ")
+                    : "N/A",
+
+                timezone: country.timezones?.join(", ") || "N/A", // timezone, it's an array as more countries are in multiple timezones (ex: USA), each is separated with a comma (,) - or "N/A" if the country doesn't have any
+
+                carSign: country.car?.signs?.join(", ") || "N/A" // country's car license plate initials, as an array for the particular cases of country having multiple ones (usually during transition periods) -  or "N/A" if the country doesn't have any
             };
 
             // set State for countryData with processed information
@@ -40,11 +53,6 @@ function useCountrySearchViewModel(onCountryFound) {
             if (onCountryFound && shouldUpdateMap) {
                 onCountryFound(normalized.name);
             }
-
-            // if a country was found, use the callback "onCountrFound" to pass its name to the map's viewModel so it may know that it has been "selected" (through a search)
-            //if (onCountryFound) {
-            //    onCountryFound(normalized.name); /* sends data to useWorldMapViewModel */
-            //}
 
         } catch (err) {
 

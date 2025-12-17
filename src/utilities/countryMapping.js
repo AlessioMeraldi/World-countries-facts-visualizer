@@ -1,6 +1,3 @@
-// 1. MAPPA -> API (Quando clicchi sulla mappa)
-// Se clicco su una qualsiasi di queste regioni, devo cercare "United Kingdom" nell'API
-
 /* This file aims to solve the problem that REST Countries API and the D3 map with GeoJSON data don't have matching names for the countries */
 /* it contains the equivalences <Country's name on the Map <-> Country's name in the REST Countries API> */
 
@@ -55,6 +52,7 @@ const apiToMapMap = {
     "Democratic People's Republic of Korea": "North Korea",
 
     /* Oceania */
+    "Timor-Leste" : "East Timor",
 
     /* Middle East */
     "Palestine" : "West Bank",

@@ -48,7 +48,7 @@ function useWorldMapViewModel(width, height, onCountryClick) {
     // Define the map projection (converts 3D Globe coordinates to 2D Planar pixels)
     const projection = d3.geoNaturalEarth1()
         .scale(160) // sets the base scale (zoom level) of the map
-        .translate([width / 2, height / 2]) // centers the map in the middle of the SVG canvas [middle = (width/2, height/2)]
+        .translate([width / 2.5, height / 2]) // centers the map in the middle of the SVG canvas [middle = (width/2, height/2)], its width 2.5 to put a slight offset due to there being the sidebar on the left (and for all the ocean between the USA and Japan)
     ;
 
     // Create a new geographic path generator (this tells the generator: "use these math rules to calculate pixel positions")

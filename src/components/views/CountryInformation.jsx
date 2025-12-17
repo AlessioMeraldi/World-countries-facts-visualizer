@@ -13,36 +13,78 @@ function CountryInformation( {viewModel}) {
     } = viewModel;
 
     return (
-        <div>
-            <h2>Country Information</h2>
+        <div className={CountryInformationStyle.sidebar}>
+            <h2 className={CountryInformationStyle.title}>Country Information</h2>
 
-            <input
-                value={countryName}
-                onChange={(e) => setCountryName(e.target.value)}
-                placeholder="Enter country name"
-                className={CountryInformationStyle.input}
-            />
+            <div className={CountryInformationStyle.searchContainer}>
+                <input
+                    value={countryName}
+                    onChange={(e) => setCountryName(e.target.value)}
+                    placeholder="Enter country name..."
+                    className={CountryInformationStyle.input}
+                    // Aggiungo questo per UX: premere invio per cercare
+                    onKeyDown={(e) => e.key === 'Enter' && searchCountry()}
+                />
 
-            <button onClick={searchCountry} disabled={loading}>
-                {loading ? "Searching..." : "Search"}
-            </button>
+                <button
+                    onClick={searchCountry}
+                    disabled={loading}
+                    className={CountryInformationStyle.button}
+                    title="Search"
+                >
+                    {/* Se hai un'icona SVG mettila qui, altrimenti emoji */}
+                    {loading ? "..." : "🔍"}
+                </button>
+            </div>
 
-            {error && <p className={CountryInformationStyle.error}>{error}</p>}
+            {error && <div className={CountryInformationStyle.error}>{error}</div>}
 
             {countryData && (
-                <div className={CountryInformationStyle.container}>
+                <div className={CountryInformationStyle.detailsContainer}>
 
-                    <img src={countryData.flag} alt="flag" width="120" style={{border: "1px solid #ccc", marginBottom: "1rem"}}/>
+                    <img
+                        src={countryData.flag}
+                        alt="flag"
+                        className={CountryInformationStyle.flag}
+                    />
 
-                    <h3>{countryData.name} <small>({countryData.code})</small></h3>
+                    <h3 className={CountryInformationStyle.countryName}>
+                        {countryData.name}
+                        <span className={CountryInformationStyle.countryCode}>{countryData.code}</span>
+                    </h3>
 
-                    <p><strong>Capital:</strong> {countryData.capital}</p>
-                    <p><strong>Region:</strong> {countryData.region}</p>
-                    <p><strong>Population:</strong> {countryData.population.toLocaleString()}</p>
-                    <p><strong>Timezone:</strong> {countryData.timezone}</p>
-                    <hr />
-                    <p><strong>Currency:</strong> {countryData.currencies}</p>
-                    <p><strong>Car Sign:</strong> {countryData.carSign}</p>
+                    {/* Info Rows */}
+                    <div className={CountryInformationStyle.infoRow}>
+                        <span className={CountryInformationStyle.infoLabel}>Capital</span>
+                        <span className={CountryInformationStyle.infoValue}>{countryData.capital}</span>
+                    </div>
+
+                    <div className={CountryInformationStyle.infoRow}>
+                        <span className={CountryInformationStyle.infoLabel}>Region</span>
+                        <span className={CountryInformationStyle.infoValue}>{countryData.region}</span>
+                    </div>
+
+                    <div className={CountryInformationStyle.infoRow}>
+                        <span className={CountryInformationStyle.infoLabel}>Population</span>
+                        <span className={CountryInformationStyle.infoValue}>{countryData.population.toLocaleString()}</span>
+                    </div>
+
+                    <div className={CountryInformationStyle.infoRow}>
+                        <span className={CountryInformationStyle.infoLabel}>Timezone</span>
+                        <span className={CountryInformationStyle.infoValue}>{countryData.timezone}</span>
+                    </div>
+
+                    <hr className={CountryInformationStyle.divider} />
+
+                    <div className={CountryInformationStyle.infoRow}>
+                        <span className={CountryInformationStyle.infoLabel}>Currency</span>
+                        <span className={CountryInformationStyle.infoValue}>{countryData.currencies}</span>
+                    </div>
+
+                    <div className={CountryInformationStyle.infoRow}>
+                        <span className={CountryInformationStyle.infoLabel}>Car Sign</span>
+                        <span className={CountryInformationStyle.infoValue}>{countryData.carSign}</span>
+                    </div>
 
                 </div>
             )}

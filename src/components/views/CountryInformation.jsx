@@ -74,7 +74,7 @@ function CountryInformation( {viewModel}) {
                         <span className={CountryInformationStyle.infoValue}>{countryData.timezone}</span>
                     </div>
 
-                    <hr className={CountryInformationStyle.divider} />
+                    { /* <hr className={CountryInformationStyle.divider} /> */ }
 
                     <div className={CountryInformationStyle.infoRow}>
                         <span className={CountryInformationStyle.infoLabel}>Currency</span>

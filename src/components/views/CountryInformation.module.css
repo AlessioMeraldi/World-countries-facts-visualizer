@@ -1,36 +1,42 @@
-/* DEFINIZIONE VARIABILI */
+/* DEFINIZIONE VARIABILI AGGIORNATA */
 :root {
-    /* Sfondi */
-    /* Scurito da #eef2f6 a #e0e5ec per far risaltare il bianco delle bandiere */
-    --bg-main: #e0e5ec;
-    --bg-tag: #d1d9e6;            /* Scurito per staccare dal nuovo sfondo */
+    /* --- SFONDI --- */
+    --bg-main: #e7ecf1;           /* Colore base */
+    --bg-tag: #d1d9e6;
     --bg-error: #fff0f0;
-    --bg-disabled: #dbe2ea;       /* Adattato al nuovo sfondo */
+    --bg-disabled: #dbe2ea;
 
-    /* Testi */
-    /* Resi leggermente più scuri e profondi per contrastare il nuovo sfondo */
-    --text-primary: #3d5a80;      /* Era #4b6cb7 */
-    --text-title: #0f253e;        /* Quasi nero bluastro */
-    --text-input: #3e546b;        /* Più scuro per leggibilità input */
-    --text-accent: #0056b3;       /* Blu leggermente più profondo */
+    /* --- TESTI --- */
+    --text-primary: #3d5a80;
+    --text-title: #0f253e;
+    --text-input: #3e546b;
+    --text-accent: #0056b3;
     --text-accent-hover: #004494;
     --text-disabled: #94a3b8;
     --text-error: #cc0000;
     --text-tag: #50667e;
-    --text-label: #687f95;        /* Adattato per non sparire sul grigio */
+    --text-label: #687f95;
     --text-value: #1a2e42;
 
-    /* Ombre e Neumorfismo */
-    /* Le ombre scure devono essere più intense su sfondo più scuro */
+    /* --- OMBRE GENERICH --- */
     --shadow-sidebar: rgba(0,0,0,0.08);
-    --shadow-neu-dark: #a3b1c6;   /* Molto più scuro per effetto 3D visibile */
-    --shadow-neu-light: #ffffff;  /* Il bianco puro ora "brilla" di più */
-    --shadow-neu-focus: #9aa6b8;  /* Ombra interna focus */
     --shadow-error: rgba(214, 69, 69, 0.15);
 
-    /* Bordi e Linee */
+    /* --- PALETTE NEUMORFICA 1: SOFT (Per Input e Bottoni) --- */
+    /* Colori molto vicini allo sfondo per un rilievo appena accennato */
+    --shadow-soft-dark: #cbd6e4;   /* Molto delicato */
+    --shadow-soft-light: #ffffff;  /* Luce pura */
+    --shadow-soft-focus: #b8c6d6;  /* Ombra interna per il focus */
+
+    /* --- PALETTE NEUMORFICA 2: STRONG (Per Bandiera/Immagini) --- */
+    /* Colori originali più scuri per staccare l'oggetto dallo sfondo */
+    --shadow-neu-dark: #a3b1c6;    /* Scuro e profondo */
+    --shadow-neu-light: rgba(255, 255, 255, 0.85); /* Luce intensa */
+    --shadow-neu-focus: #9aa6b8;   /* (Opzionale legacy) */
+
+    /* --- BORDI E LINEE --- */
     --border-error: #fadcd9;
-    --border-divider: #cfd8e3;    /* Divisori leggermente più visibili */
+    --border-divider: #cfd8e3;
 }
 
 /* Container principale della sidebar */
@@ -75,60 +81,56 @@
 }
 
 .input {
-    flex-grow: 1;
-    border: none;
-    padding: 12px 18px;
+    flex-grow: 1; /* Occupa tutto lo spazio disponibile */
+    border: none; /* Nessun bordo standard */
+    padding: 12px 18px; /* Spaziatura interna */
     border-radius: 50px; /* Forma a pillola */
-    background: var(--bg-main);
-    color: var(--text-input);
-    font-size: 0.9rem;
-    outline: none;
+    background: var(--bg-main); /* Sfondo coerente */
+    color: var(--text-input); /* Colore testo input */
+    font-size: 0.9rem; /* Dimensione font */
+    outline: none; /* Rimuove outline browser */
 
-    /* NEUMORFISMO INSET (Incassato) */
-    box-shadow: inset 6px 6px 12px var(--shadow-neu-dark),
-    inset -6px -6px 12px var(--shadow-neu-light);
+    /* NEUMORFISMO INSET (Incassato) - VERSIONE SOFT */
+    box-shadow: inset 4px 4px 10px var(--shadow-soft-dark), inset -4px -4px 10px var(--shadow-soft-light); /* Ombre delicate per incasso leggero */
 
-    transition: all 0.3s ease;
+    transition: all 0.3s ease; /* Transizione fluida */
 }
 
 .input:focus {
-    /* Quando attivo, l'incasso diventa leggermente più profondo o colorato */
-    box-shadow: inset 4px 4px 8px var(--shadow-neu-focus),
-    inset -4px -4px 8px var(--shadow-neu-light);
-    color: var(--text-title);
+    /* Quando attivo, l'incasso usa il colore focus soft */
+    box-shadow: inset 3px 3px 6px var(--shadow-soft-focus), inset -3px -3px 6px var(--shadow-soft-light); /* Incasso leggermente più stretto e definito */
+    color: var(--text-title); /* Testo più scuro quando si scrive */
 }
 
 .button {
-    border: none;
-    width: 45px;
-    height: 45px;
-    flex-shrink: 0; /* <--- FONDAMENTALE: Impedisce lo schiacciamento */
-    border-radius: 50%; /* Bottone circolare elegante */
-    background: var(--bg-main);
-    color: var(--text-accent);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem; /* Per l'icona o testo breve */
+    border: none; /* Nessun bordo */
+    width: 45px; /* Larghezza fissa */
+    height: 45px; /* Altezza fissa */
+    flex-shrink: 0; /* Impedisce schiacciamento */
+    border-radius: 50%; /* Cerchio perfetto */
+    background: var(--bg-main); /* Sfondo base */
+    color: var(--text-accent); /* Colore icona */
+    cursor: pointer; /* Cursore mano */
+    display: flex; /* Flexbox per centrare icona */
+    align-items: center; /* Centro verticale */
+    justify-content: center; /* Centro orizzontale */
+    font-size: 1.1rem; /* Dimensione icona */
 
-    /* NEUMORFISMO OUTSET (Sporgente) */
-    box-shadow: 6px 6px 12px var(--shadow-neu-dark),
-    -6px -6px 12px var(--shadow-neu-light);
+    /* NEUMORFISMO OUTSET (Sporgente) - VERSIONE SOFT */
+    box-shadow: 6px 6px 12px var(--shadow-soft-dark), -6px -6px 12px var(--shadow-soft-light); /* Rilievo morbido che non sporca lo sfondo */
 
-    transition: all 0.2s ease;
+    transition: all 0.2s ease; /* Transizione rapida */
+}
+
+.button:active {
+    /* Effetto premuto (diventa incassato) */
+    box-shadow: inset 3px 3px 6px var(--shadow-soft-focus), inset -3px -3px 6px var(--shadow-soft-light); /* Simula la pressione del tasto */
+    transform: translateY(0); /* Annulla spostamento hover */
 }
 
 .button:hover {
     color: var(--text-accent-hover);
     transform: translateY(-2px);
-}
-
-.button:active {
-    /* Effetto premuto */
-    box-shadow: inset 4px 4px 8px var(--shadow-neu-dark),
-    inset -4px -4px 8px var(--shadow-neu-light);
-    transform: translateY(0);
 }
 
 .button:disabled {

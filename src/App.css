@@ -8,110 +8,18 @@
 4) Commentare WorldExplorer.jsx (FATTO)
 5) Commentare useWorldMapViewModel.js (FATTO)
 
-6) Tirare fuori più dati dalla API, il JSON torna molta roba, e metterli nella barra di sinistra:
-
-[
-  {
-    "name": {
-      "common": "Italy",
-      "official": "Italian Republic",
-      "nativeName": {
-        "ita": {
-          "official": "Repubblica italiana",
-          "common": "Italia"
-        }
-      }
-    },
-    "tld": [".it"],
-    "cca2": "IT",
-    "ccn3": "380",
-    "cca3": "ITA", // toDo: estrarre anche sigla CCA3
-    "cioc": "ITA",
-    "independent": true,
-    "status": "officially-assigned",
-    "unMember": true,
-    "currencies": { // toDo: estrarre anche la valuta
-      "EUR": {
-        "name": "Euro",
-        "symbol": "€"
-      }
-    },
-    "idd": {
-      "root": "+3",
-      "suffixes": ["9"]
-    },
-    "capital": ["Rome"],
-    "altSpellings": ["IT", "Italia", "Italian Republic", "Repubblica italiana"],
-    "region": "Europe", // toDo: estrarre la regione
-    "subregion": "Southern Europe",
-    "languages": {
-      "ita": "Italian"
-    },
-    "translations": {
-      "deu": {
-        "official": "Italienische Republik",
-        "common": "Italien"
-      },
-      "fra": {
-        "official": "République italienne",
-        "common": "Italie"
-      },
-      "spa": {
-        "official": "República Italiana",
-        "common": "Italia"
-      }
-      // ... other translations
-    },
-    "latlng": [42.83333333, 12.83333333],
-    "landlocked": false,
-    "borders": ["FRA", "CHE", "AUT", "SVN"],
-    "area": 301336,
-    "demonyms": {
-      "eng": {
-        "f": "Italian",
-        "m": "Italian"
-      },
-      "fra": {
-        "f": "Italienne",
-        "m": "Italien"
-      }
-    },
-    "flag": "🇮🇹",
-    "maps": {
-      "googleMaps": "https://goo.gl/maps/3GbLXbBz9Z6znj5t6",
-      "openStreetMaps": "https://www.openstreetmap.org/relation/365331"
-    },
-    "population": 59554023,
-    "fifa": "ITA",
-    "car": { // toDo: extract car's license plate format
-      "signs": ["I"],
-      "side": "right"
-    },
-    "timezones": ["UTC+01:00"], // toDo: extract timeZone
-    "continents": ["Europe"],
-    "flags": {
-      "svg": "https://flagcdn.com/it.svg",
-      "png": "https://flagcdn.com/w320/it.png"
-    },
-    "coatOfArms": {
-      "png": "https://mainfacts.com/media/images/coats_of_arms/it.png",
-      "svg": "https://mainfacts.com/media/images/coats_of_arms/it.svg"
-    },
-    "startOfWeek": "monday",
-    "capitalInfo": {
-      "latlng": [41.9, 12.5]
-    },
-    "postalCode": {
-      "format": "#####",
-      "regex": "^(\\d{5})$"
-    }
-  }
-]
+6) Tirare fuori più dati dalla API:
+   - cca3 (FATTO)
+   - valute (FATTO)
+   - Regione geografica (FATTO)
+   - sigla targa (FATTO)
+   - Zone orarie / temporali
+   -
 
 7) Rivedere lo stile della barra di sinistra:
- --> background grigio sembra un pelo troppo scuro (a YuYu, a me non dispiaceva)
- --> Shadow della bandiera da rivedere, decisamente troppo acceso il riflesso bianco in alto a sinistra
- --> Rivedere le shadow anche di input e bottone di ricerca che anche lì sembrano un pelo troppo brillanti
- --> Possibilmente formattare meglio timezone
+ --> background grigio sembra un pelo troppo scuro (a YuYu, a me non dispiaceva) [FATTO]
+ --> Shadow della bandiera da rivedere, decisamente troppo acceso il riflesso bianco in alto a sinistra [FATTO]
+ --> Rivedere le shadow anche di input e bottone di ricerca che anche lì sembrano un pelo troppo brillanti [FATTO]
+ --> Possibilmente formattare meglio timezone? [toDo: decidere cosa fare, temo che mandarlo a capo peggiori le cose - lo trovo già accettabile ora]
 
  */

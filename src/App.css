@@ -13,13 +13,14 @@
    - valute (FATTO)
    - Regione geografica (FATTO)
    - sigla targa (FATTO)
-   - Zone orarie / temporali
+   - Zone orarie / temporali (FATTO)
    -
 
 7) Rivedere lo stile della barra di sinistra:
  --> background grigio sembra un pelo troppo scuro (a YuYu, a me non dispiaceva) [FATTO]
  --> Shadow della bandiera da rivedere, decisamente troppo acceso il riflesso bianco in alto a sinistra [FATTO]
  --> Rivedere le shadow anche di input e bottone di ricerca che anche lì sembrano un pelo troppo brillanti [FATTO]
- --> Possibilmente formattare meglio timezone? [toDo: decidere cosa fare, temo che mandarlo a capo peggiori le cose - lo trovo già accettabile ora]
+ --> Possibilmente formattare meglio timezone? [FATTO]
+ --> Migliorare l'evidenza di quando l'input è in focus [FATTO]
 
  */

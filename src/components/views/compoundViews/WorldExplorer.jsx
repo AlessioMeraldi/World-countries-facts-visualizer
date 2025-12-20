@@ -7,10 +7,12 @@ import { getMapNameFromAPIName, getAPINameFromMapName } from "/src/utilities/cou
 /* import ViewModels */
 import useCountrySearchViewModel from "/src/components/viewmodels/useCountrySearchViewModel";
 import useWorldMapViewModel from "/src/components/viewmodels/useWorldMapViewModel";
+import useGeminiViewModel from "/src/components/viewmodels/geminiViewModel";
 
 /* import Views */
 import WorldMap from "/src/components/views/WorldMap";
 import CountryInformation from "/src/components/views/CountryInformation";
+import GeminiView from "/src/components/views/GeminiView";
 
 
 /* Begin logic */
@@ -19,6 +21,13 @@ function WorldExplorer() {
     /* = Instantiate the two ViewModels = */
     const mapVM = useWorldMapViewModel(960, 500);
     const countryVM = useCountrySearchViewModel();
+
+    /* 3. Istanziamo il Gemini VM.
+       Gli passiamo "countryVM.countryData?.name" come stato reattivo.
+       In questo modo, ogni volta che countryVM aggiorna i dati del paese,
+       geminiVM riceve il nuovo nome e resetta la chat o si prepara.
+    */
+    const geminiVM = useGeminiViewModel(countryVM.countryData?.name);
 
     /* both viewModels use a function / method from one another, so we can only link them afterward by using an effect (otherwise, one casts an error 'undefined') */
 
@@ -63,13 +72,22 @@ function WorldExplorer() {
 
     return (
         <div className={WorldExplorerStyle.worldExplorer}>
+
+            {/* Colonna Sinistra: Dettagli Paese */}
             <div className={WorldExplorerStyle.informationPanel}>
                 <CountryInformation viewModel={countryVM} />
             </div>
 
+            {/* Colonna Centrale: Mappa */}
             <div className={WorldExplorerStyle.mapPanel}>
                 <WorldMap viewModel={mapVM} />
             </div>
+
+            {/* Colonna Destra: Chat Gemini (Nuova) */}
+            <div className={WorldExplorerStyle.geminiPanel}>
+                <GeminiView viewModel={geminiVM} />
+            </div>
+
         </div>
     );
 }

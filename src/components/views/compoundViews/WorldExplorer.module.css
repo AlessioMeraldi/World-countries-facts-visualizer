@@ -1,10 +1,12 @@
 
 /* Full-page container: vertical layout */
 .worldExplorer {
-    display: flex;
-    flex-direction: row;
-    height: 100vh;       /* full screen height */
-    width: 100vw;        /* full screen width */
+    display: grid;
+    /* Manteniamo le dimensioni fisse: 320px sinistra | resto mappa | 350px destra */
+    grid-template-columns: 320px 1fr 350px;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
 }
 
 /* left panel: CountryInformation */
@@ -19,4 +21,18 @@
     flex-grow: 1;
     position: relative;
     overflow: hidden;
+}
+
+.geminiPanel {
+    background-color: #f9f9f9;
+    border-left: 1px solid #e0e0e0;
+    z-index: 10;
+
+    /* MODIFICA FONDAMENTALE: */
+    width: 100%;       /* Occupa solo lo spazio della colonna (350px) */
+    max-width: 350px;  /* Sicurezza extra: non superare mai i 350px */
+    overflow: hidden;  /* Se qualcosa sfora, viene tagliato (gestito poi dentro la view) */
+
+    display: flex;
+    flex-direction: column;
 }

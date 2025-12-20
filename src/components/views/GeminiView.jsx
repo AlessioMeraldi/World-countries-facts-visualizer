@@ -19,7 +19,7 @@ function GeminiView({ viewModel }) {
         <div className={GeminiViewStyle.sidebar}>
 
             {/* Header */}
-            <h2 className={GeminiViewStyle.title}>Chatta con Gemini ✨</h2>
+            <h2 className={GeminiViewStyle.title}>Chat with Gemini</h2>
 
             {/* Quick Actions Grid (I bottoni colorati del mockup) */}
             <div className={GeminiViewStyle.quickActionsContainer}>
@@ -28,27 +28,27 @@ function GeminiView({ viewModel }) {
                     className={`${GeminiViewStyle.actionBtn} ${GeminiViewStyle.btnFunFact}`}
                     onClick={() => handleQuickAction('fun_fact')}
                     disabled={!hasCountrySelected || isLoading}
-                    title="Curiosità divertente"
+                    title="Fun fact"
                 >
-                    💡 Curiosità
+                    💡Curiosity
                 </button>
 
                 <button
                     className={`${GeminiViewStyle.actionBtn} ${GeminiViewStyle.btnHoliday}`}
                     onClick={() => handleQuickAction('holiday')}
                     disabled={!hasCountrySelected || isLoading}
-                    title="Festa Nazionale"
+                    title="National Holiday"
                 >
-                    🎉 Feste
+                    🎉Holidays
                 </button>
 
                 <button
                     className={`${GeminiViewStyle.actionBtn} ${GeminiViewStyle.btnFood}`}
                     onClick={() => handleQuickAction('food')}
                     disabled={!hasCountrySelected || isLoading}
-                    title="Cibo Tipico"
+                    title="Traditional food"
                 >
-                    🍝 Cibo
+                    🍝Food
                 </button>
 
                 {/* Possibili altri bottoni futuri... */}
@@ -76,7 +76,7 @@ function GeminiView({ viewModel }) {
                 {/* Indicatore di caricamento */}
                 {isLoading && (
                     <div className={GeminiViewStyle.loadingIndicator}>
-                        Gemini sta scrivendo...
+                        Gemini is thinking...
                     </div>
                 )}
 
@@ -91,7 +91,7 @@ function GeminiView({ viewModel }) {
                     value={inputText}
                     onChange={(e) => setInputText(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleManualSend()}
-                    placeholder={hasCountrySelected ? "Chiedi qualcosa..." : "Seleziona un paese..."}
+                    placeholder={hasCountrySelected ? "Ask something.." : "Select a country..."}
                     disabled={isLoading}
                 />
 

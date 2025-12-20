@@ -7,6 +7,10 @@ function WorldMap({viewModel}) {
 
         <React.Fragment>
 
+            <section className={WorldMapStyle.heading}>
+                <h1>POLITICAL MAP OF THE WORLD</h1>
+            </section>
+
             <div className={WorldMapStyle.mapContainer}>
 
                 <svg ref={viewModel.svgRef} /* set this svg as the referenced object by 'svgRef' inside the (useWorldMap) viewModel [used to sense zoom / pan changes] */

@@ -17,24 +17,25 @@ function CountryInformation( {viewModel}) {
             <h2 className={CountryInformationStyle.title}>Country Information</h2>
 
             <div className={CountryInformationStyle.searchContainer}>
-                <input
-                    value={countryName}
-                    onChange={(e) => setCountryName(e.target.value)}
-                    placeholder="Enter country name..."
-                    className={CountryInformationStyle.input}
-                    // Aggiungo questo per UX: premere invio per cercare
-                    onKeyDown={(e) => e.key === 'Enter' && searchCountry()}
-                />
+                <div className={CountryInformationStyle.inputWrapper}>
+                    <input
+                        value={countryName}
+                        onChange={(e) => setCountryName(e.target.value)}
+                        placeholder="Enter country name..."
+                        className={CountryInformationStyle.input}
+                        // Aggiungo questo per UX: premere invio per cercare
+                        onKeyDown={(e) => e.key === 'Enter' && searchCountry()}
+                    />
 
-                <button
-                    onClick={searchCountry}
-                    disabled={loading}
-                    className={CountryInformationStyle.button}
-                    title="Search"
-                >
-                    {/* Se hai un'icona SVG mettila qui, altrimenti emoji */}
-                    {loading ? "..." : "🔍"}
-                </button>
+                    <button
+                        onClick={searchCountry}
+                        disabled={loading}
+                        className={CountryInformationStyle.button}
+                        title="Search"
+                    >
+                        {loading ? "..." : "🔍"}
+                    </button>
+                </div>
             </div>
 
             {error && <div className={CountryInformationStyle.error}>{error}</div>}

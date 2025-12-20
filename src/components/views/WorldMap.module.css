@@ -19,7 +19,22 @@
 
 }
 
-/* === NEW LAYOUT CLASSES === */
+.heading {
+    text-align: center;
+    z-index: 1;
+    background-color: var(--sea-color);
+    margin-bottom: -10px;
+}
+
+.heading h1 {
+    padding: 0.2em;
+    padding-top: 0.5em;
+    margin: 0;
+
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    color: var(--text-title);
+    font-size: 3em;
+}
 
 /* Main Grid Container */
 .worldExplorer {

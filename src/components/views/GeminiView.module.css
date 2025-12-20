@@ -1,5 +1,6 @@
 /* Container principale (identico a CountryInformation per coerenza visiva) */
 .sidebar {
+
     background-color: var(--bg-main);
     font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
     color: var(--text-primary);
@@ -10,7 +11,7 @@
 
     height: 100%; /* Occupa l'altezza definita dalla Grid in WorldExplorer */
     box-sizing: border-box;
-    padding: 1.5rem;
+    padding: 2.5rem 2rem;
 
     /* Ombra a sinistra (essendo il pannello destro) */
     box-shadow: -5px 0 15px var(--shadow-sidebar);
@@ -24,13 +25,15 @@
 
 /* Titolo */
 .title {
+
     margin-top: 0;
     font-weight: 800;
     color: var(--text-title);
-    font-size: 1.4rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
     letter-spacing: -0.5px;
     text-align: center;
+
 }
 
 /* --- QUICK ACTIONS (Bottoni Colorati) --- */

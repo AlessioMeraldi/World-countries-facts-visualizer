@@ -23,9 +23,15 @@
  --> Possibilmente formattare meglio timezone? [FATTO]
  --> Migliorare l'evidenza di quando l'input è in focus [FATTO]
 
- 8) Migliorare lo stile grafico della barra a destra di Gemini
+ 8) Migliorare lo stile grafico della barra a destra di Gemini [FATTO]
 
  9) Armonizzare lo stile grafico in generale del sito
+
+ 10) Implementare la formattazione grafica della chat di Gemini (affinché **testo** compaia davvero in bold, ad esempio)
+     XOR
+     Far sì che le risposte di Gemini siano totalmente prive di formattazione, in modo che non si veda **testo** mai
+
+ 11) Tradurre tutto quanto da italiano ad inglese [FATTO]
 
  */
 

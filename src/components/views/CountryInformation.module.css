@@ -21,30 +21,43 @@
 
 /* Titolo */
 .title {
+
     margin-top: 0;
     font-weight: 800;
     color: var(--text-title);
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     margin-bottom: 2rem;
     letter-spacing: -0.5px;
+    text-align: center;
+
 }
 
-/* --- SEZIONE RICERCA NEUMORFICA --- */
+/* --- SEZIONE RICERCA NEUMORFICA AGGIORNATA --- */
+
+/* Il contenitore esterno serve solo a dare spazio verticale */
 .searchContainer {
-    /* Flex column ma compatto */
-    display: flex;
-    flex-direction: row; /* Riprovo la riga, ora ci sta perché la barra è più larga! */
-    align-items: center;
-    gap: 12px;
+    width: 100%;
     margin-bottom: 2.5rem;
     padding: 5px;
+    box-sizing: border-box;
+}
+
+/* NUOVO: Wrapper relativo per sovrapporre bottone e input */
+.inputWrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .input {
-    flex-grow: 1;
-    /* CAMBIO: Aggiungo bordo trasparente per preparare lo spazio */
+    width: 100%; /* Occupa tutto lo spazio del wrapper */
     border: 1px solid transparent;
     padding: 12px 18px;
+
+    /* Aumentiamo il padding a destra per non far finire il testo sotto la lente */
+    padding-right: 50px;
+
     border-radius: 50px;
     background: var(--bg-main);
     color: var(--text-input);
@@ -56,51 +69,56 @@
     inset -4px -4px 10px var(--shadow-soft-light);
 
     transition: all 0.3s ease;
+    box-sizing: border-box;
 }
 
 .input:focus {
     border-color: var(--border-focus);
     box-shadow: inset 3px 3px 6px var(--shadow-focus-colored),
     inset -3px -3px 6px var(--shadow-soft-light),
-    0 0 8px rgba(0, 86, 179, 0.2); /* Glow esterno */
+    0 0 8px rgba(0, 86, 179, 0.2);
     color: var(--text-title);
 }
 
+/* Modifiche sostanziali al bottone per farlo stare "dentro" */
 .button {
-    border: none; /* Nessun bordo */
-    width: 45px; /* Larghezza fissa */
-    height: 45px; /* Altezza fissa */
-    flex-shrink: 0; /* Impedisce schiacciamento */
-    border-radius: 50%; /* Cerchio perfetto */
-    background: var(--bg-main); /* Sfondo base */
-    color: var(--text-accent); /* Colore icona */
-    cursor: pointer; /* Cursore mano */
-    display: flex; /* Flexbox per centrare icona */
-    align-items: center; /* Centro verticale */
-    justify-content: center; /* Centro orizzontale */
-    font-size: 1.1rem; /* Dimensione icona */
+    position: absolute; /* Posizionamento assoluto */
+    right: 5px;         /* Ancorato a destra */
+    top: 50%;           /* Centrato verticalmente */
+    transform: translateY(-50%); /* Correzione centratura esatta */
 
-    /* NEUMORFISMO OUTSET (Sporgente) - VERSIONE SOFT */
-    box-shadow: 6px 6px 12px var(--shadow-soft-dark), -6px -6px 12px var(--shadow-soft-light); /* Rilievo morbido che non sporca lo sfondo */
+    border: none;
+    width: 40px;        /* Leggermente più piccolo */
+    height: 40px;
+    border-radius: 50%;
+    background: transparent; /* Sfondo trasparente per fondersi con l'input */
+    color: var(--text-accent);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
 
-    transition: all 0.2s ease; /* Transizione rapida */
-}
+    /* Rimuoviamo l'ombra "sporgente" (Outset) perché è dentro un buco (Inset) */
+    box-shadow: none;
 
-.button:active {
-    /* Effetto premuto (diventa incassato) */
-    box-shadow: inset 3px 3px 6px var(--shadow-soft-focus), inset -3px -3px 6px var(--shadow-soft-light); /* Simula la pressione del tasto */
-    transform: translateY(0); /* Annulla spostamento hover */
+    transition: all 0.2s ease;
 }
 
 .button:hover {
     color: var(--text-accent-hover);
-    transform: translateY(-2px);
+    background-color: rgba(0, 86, 179, 0.05); /* Leggero feedback visivo su hover */
+    transform: translateY(-50%) scale(1.1); /* Effetto zoom mantenendo la centratura */
+}
+
+.button:active {
+    transform: translateY(-50%) scale(0.95);
 }
 
 .button:disabled {
     color: var(--text-disabled);
-    box-shadow: none;
-    background: var(--bg-disabled);
+    cursor: default;
+    background: transparent;
 }
 
 /* --- FINE SEZIONE RICERCA --- */

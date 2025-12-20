@@ -29,20 +29,22 @@ function useGeminiViewModel(currentCountryName) {
      * Questo assicura che l'utente non continui a chiedere cose sulla Francia quando ha appena cliccato l'Italia.
      */
     useEffect(() => {
+
+        // "Country selected" state
         if (currentCountryName) {
             setChatHistory([
                 {
                     sender: 'gemini',
-                    text: `Ciao! Sono pronto a darti informazioni su: ${currentCountryName}. Chiedimi pure!`
+                    text: `Hello! I can give you some information about ${currentCountryName}. Just ask me!`
                 }
             ]);
             setError(null);
         } else {
-            // Stato neutro se nessun paese è selezionato
+            // "No country selected" state
             setChatHistory([
                 {
                     sender: 'gemini',
-                    text: "Seleziona un paese sulla mappa o cercalo per iniziare una conversazione."
+                    text: "Select a country to begin a conversation"
                 }
             ]);
         }
@@ -104,7 +106,7 @@ function useGeminiViewModel(currentCountryName) {
 
         // UX Enhancement: Se l'utente scrive "capitale" e c'è un paese selezionato, aiutiamo Gemini
         if (currentCountryName && !inputText.toLowerCase().includes(currentCountryName.toLowerCase())) {
-            prompt = `Riguardo al paese "${currentCountryName}": ${inputText}`;
+            prompt = `Regarding the country "${currentCountryName}": ${inputText}`;
         }
 
         performRequest(prompt, inputText); // Invio il prompt arricchito, ma mostro solo quello che ha scritto l'utente
@@ -117,7 +119,7 @@ function useGeminiViewModel(currentCountryName) {
      */
     const handleQuickAction = (actionType) => {
         if (!currentCountryName) {
-            setError("Seleziona prima un paese!");
+            setError("You must first select a country!");
             return;
         }
 
@@ -126,16 +128,16 @@ function useGeminiViewModel(currentCountryName) {
 
         switch (actionType) {
             case 'fun_fact':
-                prompt = `Dimmi una curiosità breve e divertente su: ${currentCountryName}`;
-                label = "Dimmi una curiosità 🤔";
+                prompt = `Tell me a short and fun fact about: ${currentCountryName}`;
+                label = "Tell me a fun fact 🤔";
                 break;
             case 'holiday':
-                prompt = `Qual è la festa nazionale principale di: ${currentCountryName} e perché si festeggia?`;
-                label = "Festa Nazionale 🎉";
+                prompt = `What is the main national holiday of ${currentCountryName} and why is it celebrated?`;
+                label = "National Holiday 🎉";
                 break;
             case 'food':
-                prompt = `Qual è il piatto tipico più famoso di: ${currentCountryName}? Descrivilo in breve.`;
-                label = "Piatto tipico 🍝";
+                prompt = `What is the most famous traditional dish of ${currentCountryName}? Describe it briefly.`;
+                label = "Traditional Dish 🍝";
                 break;
             default:
                 return;

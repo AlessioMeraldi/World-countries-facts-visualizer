@@ -1,31 +1,22 @@
-/* Container principale (identico a CountryInformation per coerenza visiva) */
+/* Container principale */
 .sidebar {
-
     background-color: var(--bg-main);
     font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
     color: var(--text-primary);
-
-    /* Layout Flex verticale per gestire header, chat e footer */
     display: flex;
     flex-direction: column;
-
-    height: 100%; /* Occupa l'altezza definita dalla Grid in WorldExplorer */
+    height: 100%;
     box-sizing: border-box;
     padding: 2.5rem 2rem;
-
-    /* Ombra a sinistra (essendo il pannello destro) */
     box-shadow: -5px 0 15px var(--shadow-sidebar);
     position: relative;
-
-    /* Assicuriamoci che il contenitore interno non spinga */
     width: 100%;
     max-width: 100%;
-    overflow: hidden; /* Fondamentale per evitare scroll orizzontali indesiderati sull'intera barra */
+    overflow: hidden;
 }
 
 /* Titolo */
 .title {
-
     margin-top: 0;
     font-weight: 800;
     color: var(--text-title);
@@ -33,13 +24,12 @@
     margin-bottom: 2rem;
     letter-spacing: -0.5px;
     text-align: center;
-
 }
 
 /* --- QUICK ACTIONS (Bottoni Colorati) --- */
 .quickActionsContainer {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 colonne uguali */
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     margin-bottom: 1.5rem;
 }
@@ -53,12 +43,9 @@
     cursor: pointer;
     background: var(--bg-main);
     color: var(--text-primary);
-
-    /* Neumorfismo Outset (Rilievo) */
     box-shadow:
             5px 5px 10px var(--shadow-soft-dark),
             -5px -5px 10px var(--shadow-soft-light);
-
     transition: all 0.2s ease;
     display: flex;
     flex-direction: column;
@@ -85,33 +72,26 @@
     background: var(--bg-disabled);
 }
 
-/* Colori specifici per i bottoni (Bordi e Testo) */
-.btnFunFact { color: #d97706; /* Ambra */ border: 1px solid transparent; }
+.btnFunFact { color: #d97706; border: 1px solid transparent; }
 .btnFunFact:hover:not(:disabled) { border-color: #d97706; }
 
-.btnHoliday { color: #dc2626; /* Rosso */ border: 1px solid transparent; }
+.btnHoliday { color: #dc2626; border: 1px solid transparent; }
 .btnHoliday:hover:not(:disabled) { border-color: #dc2626; }
 
-.btnFood { color: #16a34a; /* Verde */ border: 1px solid transparent; }
+.btnFood { color: #16a34a; border: 1px solid transparent; }
 .btnFood:hover:not(:disabled) { border-color: #16a34a; }
 
 
 /* --- CHAT WINDOW (Area Messaggi) --- */
 .chatWindow {
     flex-grow: 1;
-
-    /* Stili per il box */
     background: var(--bg-main);
     border-radius: 15px;
     box-shadow: inset 5px 5px 10px var(--shadow-soft-dark), inset -5px -5px 10px var(--shadow-soft-light);
-
     padding: 15px;
     margin-bottom: 1rem;
-
-    /* GESTIONE SCROLL */
-    overflow-y: auto; /* Scroll Verticale: SI */
-    overflow-x: hidden; /* Scroll Orizzontale: NO (vogliamo che il testo vada a capo) */
-
+    overflow-y: auto;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -123,43 +103,96 @@
     padding: 10px 14px;
     border-radius: 12px;
     font-size: 0.9rem;
-    line-height: 1.4;
+    line-height: 1.5; /* Aumentato leggermente per leggibilità testo lungo */
     position: relative;
     animation: fadeIn 0.3s ease;
-
-    /* --- NUOVI STILI PER IL TESTO --- */
-    word-wrap: break-word;      /* Spezza le parole lunghe se necessario */
-    overflow-wrap: break-word;  /* Standard moderno per spezzare il testo */
-    white-space: pre-wrap;      /* Mantiene i paragrafi di Gemini ma va a capo se finisce lo spazio */
-
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
-/* Stile Messaggio UTENTE (Allineato a Destra) */
+/* Stile Messaggio UTENTE */
 .messageUser {
-    align-self: flex-end; /* Spinge a destra */
+    align-self: flex-end;
     background-color: var(--bg-main);
     color: var(--text-accent);
-    border-bottom-right-radius: 2px; /* Piccolo dettaglio visivo */
-
-    /* Rilievo morbido */
+    border-bottom-right-radius: 2px;
     box-shadow:
             3px 3px 6px var(--shadow-soft-dark),
             -1px -1px 3px var(--shadow-soft-light);
     border: 1px solid rgba(255,255,255,0.4);
+    white-space: pre-wrap; /* Mantiene a capo manuali dell'utente */
 }
 
-/* Stile Messaggio GEMINI (Allineato a Sinistra) */
+/* Stile Messaggio GEMINI */
 .messageGemini {
-    align-self: flex-start; /* Spinge a sinistra */
-    background-color: var(--bg-main); /* Mantiene coerenza neumorfica */
+    align-self: flex-start;
+    background-color: var(--bg-main);
     color: var(--text-input);
     border-bottom-left-radius: 2px;
-
-    /* Appiattito o leggermente incassato per differenziare, oppure rilievo più soft */
     box-shadow:
             2px 2px 5px var(--shadow-soft-dark),
             -2px -2px 5px var(--shadow-soft-light);
+
+    /* IMPORTANTE: Per il Markdown, rimuoviamo il pre-wrap globale altrimenti
+       i tag <p> avrebbero doppio spazio. Lasciamo fare ai tag HTML. */
+    white-space: normal;
 }
+
+/* --- NUOVO: Gestione Stili MARKDOWN dentro messageContent --- */
+/* Queste regole si applicano solo al contenuto generato da ReactMarkdown */
+
+.messageContent p {
+    margin-bottom: 0.8rem; /* Spazio tra i paragrafi */
+    margin-top: 0;
+}
+
+/* Rimuove margine dall'ultimo paragrafo per non allungare la bolla inutilmente */
+.messageContent p:last-child {
+    margin-bottom: 0;
+}
+
+/* Liste non ordinate e ordinate */
+.messageContent ul, .messageContent ol {
+    margin-top: 0.5rem;
+    margin-bottom: 0.8rem;
+    padding-left: 1.2rem; /* Indentazione corretta per i pallini */
+}
+
+.messageContent li {
+    margin-bottom: 0.3rem;
+}
+
+/* Grassetto (Bold) */
+.messageContent strong {
+    font-weight: 700;
+    /* Opzionale: scurire leggermente se il testo base è grigio */
+    filter: brightness(0.8);
+}
+
+/* Titoli (nel caso Gemini usi ## Heading) */
+.messageContent h1, .messageContent h2, .messageContent h3 {
+    font-size: 1rem;
+    font-weight: 800;
+    margin: 1rem 0 0.5rem 0;
+    color: var(--text-title);
+    line-height: 1.2;
+}
+
+.messageContent h1:first-child, .messageContent h2:first-child {
+    margin-top: 0;
+}
+
+/* Codice in linea (backticks `code`) */
+.messageContent code {
+    background-color: rgba(128, 128, 128, 0.1); /* Sfondo leggerissimo */
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.85em;
+    color: var(--text-title); /* Usa un colore scuro per il codice */
+}
+/* --- FINE NUOVI STILI MARKDOWN --- */
+
 
 .loadingIndicator {
     font-size: 0.8rem;
@@ -185,12 +218,9 @@
     color: var(--text-input);
     font-size: 0.9rem;
     outline: none;
-
-    /* Inset Shadow (uguale alla searchbar di sinistra) */
     box-shadow:
             inset 3px 3px 6px var(--shadow-soft-dark),
             inset -3px -3px 6px var(--shadow-soft-light);
-
     transition: all 0.3s ease;
 }
 
@@ -217,12 +247,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
-    /* Outset Shadow */
     box-shadow:
             5px 5px 10px var(--shadow-soft-dark),
             -5px -5px 10px var(--shadow-soft-light);
-
     transition: all 0.2s;
 }
 

@@ -1,5 +1,6 @@
 import React from "react";
 import GeminiViewStyle from "./GeminiView.module.css";
+import ReactMarkdown from "react-markdown";
 
 function GeminiView({ viewModel }) {
 
@@ -68,7 +69,15 @@ function GeminiView({ viewModel }) {
                         }
                     >
                         <div className={GeminiViewStyle.messageContent}>
-                            {msg.text}
+                            {/*
+                                if (message sender is 'gemini') -> message (= Gemini's response) displayed as Markdown
+                                else -> message (= User's prompt) displayed as plaintext
+                            */}
+                            {msg.sender === 'gemini' ? (
+                                <ReactMarkdown>{msg.text}</ReactMarkdown>
+                            ) : (
+                                msg.text
+                            )}
                         </div>
                     </div>
                 ))}

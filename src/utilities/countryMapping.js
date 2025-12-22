@@ -20,6 +20,7 @@ const mapToApiMap = {
     "Northern Ireland": "United Kingdom",
     "Republic of Serbia": "Serbia",
     "Czech Republic" : "Czechia",
+    "Northern Cyprus" : "Cyprus",
 
     /* Asia */
 

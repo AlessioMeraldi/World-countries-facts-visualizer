@@ -8,39 +8,29 @@ import { fetchGeminiResponse } from "../models/geminiModel";
 function useGeminiViewModel(currentCountryName) {
 
     // === STATE ===
+    const [chatHistory, setChatHistory] = useState([]); // state for chat history, array of objects { sender: '(user || gemini)', text: '(written-message)' }
+    const [inputText, setInputText] = useState(""); // state for user's input field (for prompts)
+    const [isLoading, setIsLoading] = useState(false); // loading state
+    const [error, setError] = useState(null); // error state
 
-    // Lo storico della chat: array di oggetti { sender: 'user' | 'gemini', text: '...' }
-    const [chatHistory, setChatHistory] = useState([]);
-
-    // Stato del campo di input testuale
-    const [inputText, setInputText] = useState("");
-
-    // Stati di caricamento ed errore
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
-
-    // Riferimento per lo scroll automatico alla fine della chat (opzionale ma consigliato per UX)
-    const chatEndRef = useRef(null);
-
+    // === LOCAL VARIABLES ===
+    const chatEndRef = useRef(null); // reference ato automatically scroll onto the latest message in the chat (it's a <div> put after the last message)
 
     // === EFFECTS ===
 
-    /* * Effect: Reset della chat (o messaggio di benvenuto) quando cambia il paese.
-     * Questo assicura che l'utente non continui a chiedere cose sulla Francia quando ha appena cliccato l'Italia.
-     */
+    /* Effect to reset the chat whenever the country changes */
     useEffect(() => {
 
-        // "Country selected" state
-        if (currentCountryName) {
+        // We must check if a country is selected already or not, to send a different message in the chat based on this
+        if (currentCountryName) { // a country is currently selected
             setChatHistory([
                 {
                     sender: 'gemini',
                     text: `Hello! I can give you some information about ${currentCountryName}. Just ask me!`
                 }
             ]);
-            setError(null);
-        } else {
-            // "No country selected" state
+            setError(null); // toDo: figure out what this does
+        } else { // a country isn't currently selected
             setChatHistory([
                 {
                     sender: 'gemini',
@@ -48,76 +38,84 @@ function useGeminiViewModel(currentCountryName) {
                 }
             ]);
         }
-    }, [currentCountryName]);
+    }, [currentCountryName]); /* triggers whenever currentCountryName {passed from the useCountrySearchViewModel instance} changes */
 
 
     // === LOGIC ===
 
     /**
-     * Funzione generica per inviare un messaggio a Gemini.
-     * @param {string} textToSend - Il testo effettivo da inviare all'API.
-     * @param {string} displayLabel - (Opzionale) Cosa mostrare nella chat come messaggio dell'utente.
-     * Utile se clicco un bottone "Curiosità" ma voglio inviare un prompt più complesso.
+     * Generic function to send a message to Gemini.
+     * @param {string} textToSend - The actual text to send to the API.
+     * @param {string} displayLabel - What to display in the chat as the user's message. (when a prompt button is pressed, a mockup prompt text is displayed in the chat, as if the user wrote it)
      */
     async function performRequest(textToSend, displayLabel = null) {
-        if (!textToSend.trim()) return;
+
+        // check that the user didn't press "send" without any content
+        if(textToSend.trim() === "") {
+            return
+        }
 
         setIsLoading(true);
         setError(null);
 
-        // 1. Aggiungi il messaggio dell'utente alla chat
-        // Se displayLabel esiste usiamo quella (es: "Dimmi una curiosità"), altrimenti il testo raw
-        const userMessage = { sender: 'user', text: displayLabel || textToSend };
-        setChatHistory(prev => [...prev, userMessage]);
+        const userMessage = { sender: 'user', text: displayLabel }; // create <chat message object> for the USER (note: when buttons are pressed, a displayLabel is still passed as if the user wrote a message)
+        setChatHistory(prev => [...prev, userMessage]); // add  <chat message object> to the chat history (through setter)
 
+        // reminder: geminiModel.js will forward the error if it gets one while interrogating API
         try {
-            // 2. Chiama il Model
-            const responseText = await fetchGeminiResponse(textToSend);
 
-            // 3. Aggiungi la risposta di Gemini alla chat
+            const responseText = await fetchGeminiResponse(textToSend); // call model to perform the prompting of Gemini
+            const responseMessage = { sender: 'gemini', text: responseText }; // create <chat message object> for the GEMINI response
+            // add Gemini's response to the chat
             setChatHistory(prev => [
                 ...prev,
-                { sender: 'gemini', text: responseText }
+                responseMessage
             ]);
 
         } catch (err) {
+
             setError("Si è verificato un errore durante la comunicazione con Gemini.");
             console.error(err);
-            // Opzionale: aggiungere un messaggio di errore in chat
+
+            const errorMessage = { sender: 'gemini', text: "I'm sorry, I've had an issue while retrieving your response" }; // create <chat message object> for the GEMINI's error
+
+            // if an error occurs, the user is notified through the chat
             setChatHistory(prev => [
                 ...prev,
-                { sender: 'gemini', text: "Scusa, ho avuto un problema a recuperare questa informazione." }
+                errorMessage
             ]);
+
         } finally {
-            setIsLoading(false);
+
+            setIsLoading(false); // regardless of success or failure, end "loading" state
+
         }
     }
 
     /**
-     * Gestisce l'invio manuale dal box di input (tasto Enter o click su Invia).
+     * Function to handle manual prompt, the one written in the input field (sent through ENTER or by clicking the button next to it
      */
     const handleManualSend = () => {
-        if (!inputText.trim()) return;
 
-        // Se c'è un paese selezionato, potremmo voler aggiungere contesto implicitamente,
-        // ma per ora lasciamo che l'utente scriva quello che vuole.
-        // Opzionale: aggiungere "Riguardo a [Paese]: " all'inizio del prompt nascosto.
-        let prompt = inputText;
+        if (!inputText.trim()) return; // = if(inputText is falsy){return}
 
-        // UX Enhancement: Se l'utente scrive "capitale" e c'è un paese selezionato, aiutiamo Gemini
+        let prompt = inputText; // reminder, inputText changes through setter via GeminiView.jsx (in the <input/> itself)
+
+        // if the user's prompt doesn't contain the name of the country, it gets added at the start of the prompt (without the user noticing)
         if (currentCountryName && !inputText.toLowerCase().includes(currentCountryName.toLowerCase())) {
             prompt = `Regarding the country "${currentCountryName}": ${inputText}`;
         }
 
-        performRequest(prompt, inputText); // Invio il prompt arricchito, ma mostro solo quello che ha scritto l'utente
-        setInputText(""); // Pulisci input
+        performRequest(prompt, inputText); // sends prompt (with eventually the added context), only displays in the chat what the user actually wrote
+        setInputText(""); // clear input field
     };
 
     /**
-     * Gestisce i click sui "Bottoni Rapidi" (Quick Actions).
-     * @param {string} actionType - Identificativo dell'azione (es: 'fun_fact', 'history', 'food').
+     * Handles clicks on "Quick Action" buttons.
+     * @param {string} actionType - The action identifier (e.g., 'fun_fact', 'history', 'food').
      */
     const handleQuickAction = (actionType) => {
+
         if (!currentCountryName) {
             setError("You must first select a country!");
             return;
@@ -154,8 +152,8 @@ function useGeminiViewModel(currentCountryName) {
         setInputText,
         handleManualSend,
         handleQuickAction,
-        chatEndRef, // Per gestire lo scroll automatico nella View
-        hasCountrySelected: !!currentCountryName
+        chatEndRef, // to handle automatic scrolling within view
+        hasCountrySelected: !!currentCountryName // hasCountrySelected = NOT(NOT(currentCountryName)), by doing this, a Truthy/Falsy result always gets converted to a "pure boolean" TRUE or FALSE
     };
 }
 

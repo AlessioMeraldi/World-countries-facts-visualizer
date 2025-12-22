@@ -3,7 +3,7 @@ import GeminiViewStyle from "./GeminiView.module.css";
 
 function GeminiView({ viewModel }) {
 
-    // Destrutturiamo tutto ciò che ci serve dal ViewModel
+    // Deconstruct everything needed from the ViewModel
     const {
         chatHistory,
         inputText,
@@ -25,7 +25,7 @@ function GeminiView({ viewModel }) {
             <div className={GeminiViewStyle.quickActionsContainer}>
 
                 <button
-                    className={`${GeminiViewStyle.actionBtn} ${GeminiViewStyle.btnFunFact}`}
+                    className={GeminiViewStyle.actionBtn + " " + GeminiViewStyle.btnFunFact} /* alternative, Italian-Keyboard friendly solution, to using the ` ... ` chaining - remember to put the space in between the classes! */
                     onClick={() => handleQuickAction('fun_fact')}
                     disabled={!hasCountrySelected || isLoading}
                     title="Fun fact"

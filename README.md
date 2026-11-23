@@ -1,4 +1,8 @@
-# 🌍 World Country Explorer & AI Trivia
+<p align="center">
+  <img src="./docs/images/logo.png" alt="fAInd-it! Logo" width="160" />
+</p>
+
+<h1 align="center">🌍 fAInd-it! — World Country Explorer & AI Trivia</h1>
 
 > ⚠️ **Project Status: Archived / Unmaintained**  
 > **Please Note:** This project is no longer actively maintained and is currently non-functional in a live environment due to breaking changes and deprecations in the external APIs it relies upon. This repository remains public strictly as an architectural and code showcase of past work, demonstrating the implementation of the **Model-View-ViewModel (MVVM)** pattern in a React Single-Page Application.
@@ -7,7 +11,7 @@
 
 ## 📖 Overview
 
-A React Single-Page Application (SPA) built using the **MVVM pattern** to explore global country trivia. It integrates the **REST Countries API** for core data, the **Google Gemini API** for interactive LLM queries, and a **D3.js-rendered GeoJSON map** (originally fetched via a remote API and later migrated to local files for better performance).
+**fAInd-it!** is a React Single-Page Application (SPA) built using the **MVVM pattern** to explore global country trivia. It integrates the **REST Countries API** for core data, the **Google Gemini API** for interactive LLM queries, and a **D3.js-rendered GeoJSON map** (originally fetched via a remote API and later migrated to local files for better performance).
 
 ---
 
@@ -15,7 +19,7 @@ A React Single-Page Application (SPA) built using the **MVVM pattern** to explor
 
 * **Interactive World Map:** Visualizes countries globally using D3.js and GeoJSON data, allowing users to select and inspect different regions interactively.
 * **Comprehensive Country Profiles:** Displays demographic, geographical, and general facts fetched dynamically from the REST Countries API.
-* **AI-Powered Curiosities:** Integrates Google Gemini (LLM) to let users ask custom follow-up questions and discover deeper, context-aware trivia about the selected country.
+* **AI-Powered Curiosities:** Integrates Google Gemini (LLM) to let users ask custom follow-up questions or use quick-action prompts (`Curiosity`, `Holidays`, `Food`) to discover deeper, context-aware trivia about the selected country.
 * **Clean MVVM Architecture:** Strictly separates data handling (`models`), UI state and business logic via custom React hooks (`viewmodels`), and presentation components (`views`).
 
 ---
@@ -38,6 +42,8 @@ A React Single-Page Application (SPA) built using the **MVVM pattern** to explor
 The codebase strictly adheres to the **Model-View-ViewModel (MVVM)** separation of concerns, organized as follows:
 
 ```text
+├── docs/
+│   └── images/                            # Showcase screenshots & logo for README
 ├── public/
 ├── src/
 │   ├── assets/
@@ -106,3 +112,31 @@ To keep the codebase modular, testable, and easy to scale, this project implemen
    ```bash
    npm run dev
    ```
+
+---
+
+## 📸 Gallery
+
+*Since a live deployment is no longer available, the gallery below showcases the application's interface and core workflows as they originally functioned.*
+
+### Main Dashboard & Interactive World Map
+
+![Main Dashboard showing Canada selected on the D3.js World Map](./docs/images/dashboard-overview.png)
+
+*Selecting any country highlights it dynamically on the D3.js political map, populates demographic and geographic details on the left panel, and initializes a context-aware Gemini chat on the right.*
+
+### Country Search & Profile View
+
+![Country Search bar and Italy Profile View](./docs/images/country-search.png)
+
+*Users could either click directly on the map or use the search bar to locate a country and view its flag, capital, region, population, timezones, currency, and international vehicle registration code.*
+
+### Context-Aware AI Chat (Google Gemini)
+
+<p align="center">
+  <img src="./docs/images/gemini-chat-showcase.png" alt="Context-Aware AI Chat with Google Gemini for Poland" width="520" />
+</p>
+
+<p align="center">
+  <em>The right-hand panel provided one-click quick prompts (<strong>Curiosity</strong>, <strong>Holidays</strong>, <strong>Food</strong>) alongside a free-form chat input for tailored follow-up questions.</em>
+</p>
